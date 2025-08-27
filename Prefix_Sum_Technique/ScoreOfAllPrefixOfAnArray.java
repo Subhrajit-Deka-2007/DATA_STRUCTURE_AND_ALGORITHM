@@ -43,4 +43,52 @@ package Prefix_Sum_Technique;
  1 <= nums[i] <= 109
  */
 public class ScoreOfAllPrefixOfAnArray {
+    public static void main(String[] args) {
+        Soln a = new Soln();
+        int [] nums = {2,3,7,5,10};
+      long[] num = a.findPrefixScore(nums);
+
+        for(int i =0; i<num.length;i++) System.out.print(num[i]+" ");
+
+    }
 }
+class Soln {
+    public long[] findPrefixScore(int[] nums) {
+        long []  ans = new long[nums.length];
+        long max =Long.MIN_VALUE;
+        for(int i =0; i<nums.length;i++){
+            max =Math.max(max,nums[i]);
+            ans[i]=nums[i]+max;
+        }
+        // now  do prefix sum
+        for(int i =1;i<ans.length;i++)
+            ans[i]+=ans[i-1];
+        return ans ;
+    }
+}
+/*
+T.C = O(N(FOR CONVERTING THE ARRAY)+N(FOR FINDING THE PREFIX SUM))
+S.C = O(1) THE LONG ARRAY WE HAVE TO RETURN IT
+*/
+
+/* 1 MS SOLUTION
+class Solution {
+    static {
+        for(int i=0;i<600;i++){
+            findPrefixScore(new int[]{});
+        }
+    }
+    public static long[] findPrefixScore(int[] nums) {
+        long cover[] = new long[nums.length];
+        long sum=0;
+        int preMax=0;
+        for(int i=0;i<nums.length;i++){
+            preMax=Math.max(preMax,nums[i]);
+            sum+=nums[i]+preMax;
+            cover[i]=sum;
+        }
+        return cover;
+    }
+}
+1 m/s solution
+*/
