@@ -82,7 +82,8 @@ GrumpyBookStoreOwner obj = new GrumpyBookStoreOwner();
         return maxSum+cstmr;
     }
     /*
-    T.C =O(N+N)
+    T.C =O(k+n-k)
+       =o(n)
     S.C =O(1)
      */
 }
