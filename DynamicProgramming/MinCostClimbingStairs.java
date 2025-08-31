@@ -83,7 +83,7 @@ public class MinCostClimbingStairs {
 
 
 
-/*=====================================DP" RECURSION + MEMOIZATION  Going from 0 or 1 to n-1 or n-2 ================================================*/
+/*========================================DP" RECURSION + MEMOIZATION  Going from 0 or 1 to n-1 or n-2 ================================================*/
     public static int minCostClimbingStair(int[] cost) {
         // WE ARE GOING LIKE THIS                         --------------------------> IF WE ASSUME IN ARRAY LIKE CALLS ARE GETTING LIKE IT
         // AND AFTER THE CALL FINISHED IT WILL STORE HERE ^ AS FROM HERE THE CALL WAS CALLED SO WEE COMPARE THE
@@ -154,7 +154,7 @@ public class MinCostClimbingStairs {
 
 
 
-/*==========================================DP :TABULATION ========================================================================*/
+/*==========================================DP :TABULATION ============================================================================*/
     public static int tabulation_1(int [] cost){
         int[] dp = new int [cost.length];
         // for this method I am moving from left to right ---------------------------->
@@ -168,6 +168,7 @@ public class MinCostClimbingStairs {
          */
     }
 
+
 public static int tabulation_2(int [] cost){
         int [] dp = new int [cost.length];
         // for this case we are moving from right to left <-------------------------------
@@ -180,6 +181,9 @@ public static int tabulation_2(int [] cost){
          S.C =O(N)
           */
          }
+
+
+
 
 public static int tabulation_3(int [] cost){
         // IN THIS METHOD I AM GOING FROM LEFT TO RIGHT
@@ -198,6 +202,8 @@ public static int tabulation_3(int [] cost){
 T.C = O(N-2)
 S.C =O(1)
  */
+
+
 public static int tabulation_4(int [] cost){
     // IN THIS METHOD I AM GOING FROM LEFT TO RIGHT
     int stair_1 = cost[cost.length-1];
@@ -215,4 +221,9 @@ public static int tabulation_4(int [] cost){
 T.C = O(N-2)
 S.C =O(1)
  */
+
+
+
+
+/*==============================================Tabulation Ends Here ===========================================================================*/
 }
