@@ -82,8 +82,8 @@ public class MinCostClimbingStairs {
 
 
 
-
-/*========================================DP" RECURSION + MEMOIZATION  Going from 0 or 1 to n-1 or n-2 ================================================*/
+/*-------------------------------------------DP : Recursion +Memoization (Top Down DP) -----------------------------------------------*/
+/*========================================DP RECURSION + MEMOIZATION  Going from 0 or 1 to n-1 or n-2 ================================================*/
     public static int minCostClimbingStair(int[] cost) {
         // WE ARE GOING LIKE THIS                         --------------------------> IF WE ASSUME IN ARRAY LIKE CALLS ARE GETTING LIKE IT
         // AND AFTER THE CALL FINISHED IT WILL STORE HERE ^ AS FROM HERE THE CALL WAS CALLED SO WEE COMPARE THE
@@ -103,7 +103,8 @@ public class MinCostClimbingStairs {
         return dp[idx] = cost[idx] + Math.min(minCos(cost, idx + 1, dp), minCos(cost, idx + 2, dp));
     }
     /*
-    T.C =O(N) WHERE N IS THE NUMBER OF STAIRS WE FIRST MOVE IDX+1 means we move all stairs TYPE SEE THE FUNCTION THEN AFTER THIS RETURN THE ARRAY IS ALREADY FILL
+    T.C =O(N) WHERE N IS THE NUMBER OF STAIRS WE FIRST MOVE IDX+1 means we move all stairs TYPE SEE THE FUNCTION THEN AFTER THIS we  RETURN
+    at the base case . THE ARRAY IS ALREADY FILLED
     S.C =O(N(where n = number of stairs STACK SPACE)+N(FOR DP ARRAY)
     THE ith index of an array ,array[i] shows that current stairs value + min_path from its [index+1,n-1th ] index
     in this case i had put the last two index value because for the n-1 th index its value +min of top stair i.e. nth which we consider zero
@@ -154,7 +155,7 @@ public class MinCostClimbingStairs {
 
 
 
-/*==========================================DP :TABULATION ============================================================================*/
+/*==========================================DP :TABULATION (Bottom Up  DP)============================================================================*/
     public static int tabulation_1(int [] cost){
         int[] dp = new int [cost.length];
         // for this method I am moving from left to right ---------------------------->
@@ -170,6 +171,7 @@ public class MinCostClimbingStairs {
 
 
 public static int tabulation_2(int [] cost){
+        // in this case we are using tabulation as top down big to small
         int [] dp = new int [cost.length];
         // for this case we are moving from right to left <-------------------------------
          dp[cost.length-1] = cost[cost.length-1];
@@ -185,7 +187,7 @@ public static int tabulation_2(int [] cost){
 
 
 
-public static int tabulation_3(int [] cost){
+public static int tabulation_3(int [] cost){// tabulation space optimization
         // IN THIS METHOD I AM GOING FROM LEFT TO RIGHT
         int stair_1 = cost[0];
         int stair_2 = cost[1];
@@ -204,7 +206,7 @@ S.C =O(1)
  */
 
 
-public static int tabulation_4(int [] cost){
+public static int tabulation_4(int [] cost){// tabulation space optimization
     // IN THIS METHOD I AM GOING FROM LEFT TO RIGHT
     int stair_1 = cost[cost.length-1];
     int stair_2 = cost[cost.length-2];
