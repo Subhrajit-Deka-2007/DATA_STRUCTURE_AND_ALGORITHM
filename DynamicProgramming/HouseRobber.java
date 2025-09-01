@@ -177,9 +177,9 @@ public static int rob_2(int[] nums) {// we are going from right to left making t
     /* Tabulation 1 : Going from left to right  */
     public int tabulation_1(int [] cost){
         int [] dp = new int[cost.length];
-        if(cost.length==1) return cost[0];
+//        if(cost.length==1) return cost[0];
         dp[0] =cost[0];
-        dp[1] = Math.max(cost[0],cost[1]);
+        if(dp.length>1)dp[1] = Math.max(cost[0],cost[1]);// we are writing this instead of the base case if(cost.length==1) return cost[0];
         for(int i =2; i<dp.length;i++) dp[i]= Math.max(cost[i]+dp[i-2],dp[i-1]);
 
         return dp[cost.length-1];
