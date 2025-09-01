@@ -34,7 +34,8 @@ public class HouseRobber {
         dp[1] = cost[0];
         dp[0]=0;
         HouseRobber obj = new HouseRobber();
-        System.out.println(obj.rob_2(cost));
+        //System.out.println(obj.rob_2(cost));
+        System.out.println(obj.tabulation_3(cost));
     }
 
 /*========================================== RECURSIVE APPROACH ==========================================================================*/
@@ -142,7 +143,7 @@ public static int rob_2(int[] nums) {// we are going from right to left making t
 
 
 
-    public static  int take_skip_2(int[] nums,int idx,int j,int[] dp,int i ){
+    public static  int take_skip_2(int[] nums,int idx,int j,int[] dp,int i ){// j is never used here remember
         // Using dp array for traversal
         idx =i-1;
       /*  if(idx==j ) return dp[i+1];
@@ -151,14 +152,17 @@ public static int rob_2(int[] nums) {// we are going from right to left making t
        the case dp[idx] got hit and returns interesting thing i observe today
        */
         if(dp[idx]!=-1)return dp[idx];
-        int take =nums[idx-1]+take_skip_2(nums,idx-2,j,dp,idx-1);
-        int skip = take_skip_2(nums,idx-1,j,dp,idx);
+        int take =nums[idx-1]+take_skip_2(nums,idx-2,j,dp,idx-1);// why idx-1 passed instead of idx we have to maintain the size also as this calls size decrease
+        int skip = take_skip_2(nums,idx-1,j,dp,idx);// as we are skipping its size is not decreasing so idx dry run once
         return dp[idx]=Math.max(take,skip);
          /*
     T.C =O(N)
     S.C =O(N(RECURSIVE STACK )+N+1(ARRAY SPACE))
     */
-
+/**
+ * IMPORTANT : HERE I HAD FILLED SOME OF THE INDEXES ALREADY THAT IS WHY BASE CASE IS NOT NEEDED IMPORTANT THING I LEARN IN
+ * TOP-DOWN DP (RECURSION +MEMOIZATION)
+ */
     }
 
 /*============================================ DP : RECURSION + MEMOIZATION ENDS HERE ========================================================*/
@@ -168,6 +172,70 @@ public static int rob_2(int[] nums) {// we are going from right to left making t
 
 
 
-/*======================================================= DP : TABULATION =====================================================================*/
+/*======================================================= DP : TABULATION(Bottom -up approach) =====================================================================*/
+
+    /* Tabulation 1 : Going from left to right  */
+    public int tabulation_1(int [] cost){
+        int [] dp = new int[cost.length];
+        if(cost.length==1) return cost[0];
+        dp[0] =cost[0];
+        dp[1] = Math.max(cost[0],cost[1]);
+        for(int i =2; i<dp.length;i++) dp[i]= Math.max(cost[i]+dp[i-2],dp[i-1]);
+
+        return dp[cost.length-1];
+
+        /*
+        T.C =O(N-2)
+        S.C =O(N)
+         */
+    }
+
+    /* Tabulation 2 : Going from right to left  */
+    public int tabulation_2(int [] cost){
+        int [] dp = new int[cost.length];
+        if(cost.length ==1 ) return cost[0];
+        dp[cost.length-1] =cost[cost.length-1];
+        dp[cost.length-2] = Math.max(cost[cost.length-1],cost[cost.length-2]);
+        for(int i =dp.length-3; i>=0;i--) dp[i]= Math.max(cost[i]+dp[i+2],dp[i+1]);
+        return dp[0];
+
+        /*
+        T.C =O(N-2)
+        S.C =O(N)
+         */
+    }
+
+    /* Tabulation 3 : Going from left to right space optimization   */
+    public int tabulation_3(int [] cost){
+        int v1 = cost[0];
+        int v2 = Math.max(cost[0],cost[1]);
+        int x =-1;
+        for(int i = 2; i<cost.length;i++) {
+            x =v2;
+            v2= Math.max(cost[i]+v1,v2);
+            v1 = x;
+        }
+        return v2;
+        /*
+        T.C =O(N-2)
+        S.C =O(1)
+         */
+    }
+    /* Tabulation 3 : Going from right to left   space optimization   */
+    public int tabulation_4(int [] cost){
+        int v1 = cost[cost.length-1];
+        int v2 = Math.max(cost[cost.length-1],cost[cost.length-2]);
+        int x =-1;
+        for(int i = cost.length-3;i>=0;i--) {
+            x =v2;
+            v2= Math.max(cost[i]+v1,v2);
+            v1 = x;
+        }
+        return v2;
+        /*
+        T.C =O(N-2)
+        S.C =O(1)
+         */
+    }
 
 }
