@@ -119,10 +119,18 @@ public class FriendsPairingProblem {
         S.C =O(1)
          */
     }
-/*============================================Tabulation : Bottom Up approach ===============================================================*/
+/*============================================Tabulation : Bottom Up approach END ===============================================================*/
 }
 /*
  Here we cannot go from right to left as we don't have the right value if we have value of both left and right then
  we can go from both left and right from both methods
+
+
+ And to do with tabulation I have to know recursion --> then recursion + memoization--->if I can visualize(recursion + memo)
+ then I can do tabulation also for recursion+memo  how it works for this I had to know how recursion is working and its calls
+ so main is recursion then I can shift to tabulation    
+
+
+
  */
 
