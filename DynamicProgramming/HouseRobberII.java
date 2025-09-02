@@ -201,4 +201,37 @@ public int tabulation_2(int[] nums){// going from left to right
 T.C =O(N-1+N-1)
 S.C =O(N-1)
  */
+public int tabulation_4(int[] nums){// going from left to right
+    if(nums.length==1) return nums[0];
+    if(nums.length ==2) return Math.max(nums[0],nums[1]);
+    int [] dp = new int [nums.length-1];
+    int s1 = nums[0];
+    int s2= Math.max(nums[1]+0,s1);// i had added the zero for a purpose 0] [1 2 ---]
+    int x;
+    int val ;
+    for(int i =2; i<dp.length;i++){//[0,n-3)=> terms => N-2 terms
+        // first filling the array for 0 to n-2
+        //take
+        x =s2;
+        s2 = Math.max(nums[i]+s1,s2);
+        s1 = x;
+    }
+    val = s2;
+
+
+
+    s1 = nums[1];
+    s2= Math.max(nums[2]+0,s1);
+    for(int i = 2 ;i<dp.length;i++){
+        x= s2;
+        s2 = Math.max(nums[i+1]+s1,s2);
+        s1 =x;
+    }
+    return Math.max(s2,val);
+}
+/*
+T.C =O(N-1+N-1)
+S.C =O(1)
+ */
+/*==========================================Tabulation : Bottom Up DP Ending ==========================================================================*/
 }
