@@ -1,5 +1,6 @@
 package DynamicProgramming;
 
+import java.util.Arrays;
 import java.util.Scanner;
 
 /**
@@ -21,10 +22,20 @@ public class DearrangementOfThings {
         System.out.println(" Enter the number of elements ");
         int n = sc.nextInt();
         System.out.println(de_arrangement(n));
+        int [] dp = new int[n+1];// we want n also and 0 also so n+1
+        Arrays.fill(dp,-1);
+        dp[0]=1;
+        dp[1]=0;
+        System.out.println(optimize(n,dp));
+        System.out.println(tabulation(n));
     }
     public static int de_arrangement(int n){
-        if(n==0) return 1;// it is necessary as otherwise whole answer will become zero
-        if(n==1) return 0;// for n items it is impossible to de arrange zero
+        if(n==0) return 1;
+        /*
+         It is necessary as otherwise whole answer will become zero if this is in logical just remove the case n==0
+         instead just put n==2 and return 1 which means I can de - arrange in 1 way
+         */
+        if(n==1) return 0;// for n ==1  items it is impossible to de arrange so zero
      return (n-1)*(de_arrangement(n-1)+de_arrangement(n-2));
        /*means we had chosen an element out of n so, we had n-1 elements left we choose n-1 elements
         and, we had two cases either the swap with numbers then we had n-2 elements left or either we had chosen
@@ -34,4 +45,21 @@ public class DearrangementOfThings {
         */
 
     }
+/*==========================================DP : RECURSION + MEMOIZATION ===================================================================*/
+    public  static int optimize(int n,int[] dp){
+        if(dp[n]!=-1) return dp[n];// no base case we had already prefilled it
+        else return dp[n]= (n-1)*(optimize(n-1,dp)+optimize(n-2,dp));
+    }
+/*==========================================DP : RECURSION + MEMOIZATION ======================================================================*/
+
+
+
+public static int tabulation(int n){
+    int [] dp = new int[n+1];
+    dp[0] =1;
+    dp[1] =0;
+    for(int i =2;i<dp.length;i++)dp[i]= (i-1)*(dp[i-1]+dp[i-2]);
+    return dp[n];
+}
+
 }
