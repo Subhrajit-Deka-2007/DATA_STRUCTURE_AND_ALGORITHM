@@ -41,6 +41,9 @@ public class UniquePath {
             for(int j =0; j<dp[i].length;j++) System.out.print(dp[i][j]+"      ");
             System.out.println();
         }
+
+        System.out.println(" Tabulation 2 ");
+        System.out.println(tabulation_2(3,7));
     }
 
     private static int  optimize(int sr, int sc, int er, int ec, int[][] dp) {
@@ -55,7 +58,11 @@ public class UniquePath {
         AND D ARE ALREADY FILLED IN THE FIRST ITSELF SO T.C CANNOT BE NCP BECAUSE THAT COMBINATION
         WILL NOT FORM ONLY(MEANS THAT FUNCTION WILL NOT GET CALLED ONLY )
          LOGIC SO EACH CELL WILL GET TRAVERSE ONLY ONCE SO FOR RECURSION + MEMOIZATION T.C IS O(M+N)
-        S.C =O(M+N)
+        S.C =O(M+N)--------(->m)
+                           |
+                           |
+                           |(->N)
+                           S.C =O(M+N) ----- > DEPTH OF THE TREE
          */
     }
 
@@ -74,7 +81,7 @@ public class UniquePath {
     }
     /*
     T.C = 2^(M+N) OR NCP => WHERE N = NUMBER OF MOVES AND P = NUMBER OF A PARTICULAR MOVES THIS REPRESENT THAT THE ACCURATE NUMBER OF CALLS
-    S.C =O(M+N(CALL STACK)+(M+N(ARRAY)))
+    S.C =O(M+N(CALL STACK)+(M*N(ARRAY)))
      */
 /*=========================Recursive solution ends ===================================================================================*/
 
@@ -91,4 +98,40 @@ public class UniquePath {
     S.C =O(M*N)
      */
     // as we know the value from all the sides we can do it reverse also both for recursion +memo and tabulation
+
+
+
+
+    public static int tabulation_2(int m,int n){
+        int [][] dp = new int [2][n];
+        for(int i = 0;i<n;i++)dp[0][i]=1;
+        for(int i=0;i<2;i++)dp[i][0] =1;
+
+        for(int i=1;i<m;i++) {
+            if (i % 2 != 0) for (int j = 1; j < n; j++) dp[1][j] = dp[1][j - 1] + dp[0][j];
+
+            else for (int j = 1; j < n; j++) dp[0][j] = dp[0][j - 1] + dp[1][j];
+        }
+
+        if(m%2!=0) return dp[0][n-1];
+        else return dp[1][n-1];
+
+    }
+    /*
+    T.C =O(M*N)
+    S.C =O(2*N)
+    optimize space
+     */
+
+
+
+
+
+
+
+
+
+
+
+/*=======================================DP : TABULATION ================================================================================*/
 }
