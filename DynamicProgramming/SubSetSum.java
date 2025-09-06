@@ -1,7 +1,10 @@
 package DynamicProgramming;
 
+import java.util.Arrays;
 import java.util.Scanner;
-/** Knapsack problem only */
+/**
+ Knapsack problem only
+  Q) Subset Sum  */
 public class SubSetSum {
     public static void main(String[] args) {
         int[] arr ={8,-1,2,4};
@@ -9,6 +12,9 @@ public class SubSetSum {
         Scanner sc = new Scanner(System.in);
         int n = sc.nextInt();
         System.out.println( subset_sum(0,0,arr,n));
+        int [][] dp = new int[arr.length][n+1];
+        Arrays.fill(dp,-1);
+        System.out.println(memoization(0,arr,n,dp));
 
     }
     /*============================================== Recursion : TRY OUT ALL POSSIBLE SUBSETS USING RECURSION =================================================*/
@@ -42,19 +48,19 @@ public class SubSetSum {
     S.C =O(N) STACK SPACE LEVEL  = LENGTH OF THE ARRAY
     HERE WE CAN SEE TWO VARIABLES IDX AND SUM IS CHANGING SO 2D DP OF DP[IDX][SUM] IS FORMING sum[0 to target]
      */
-    public boolean memoization(int idx,int[] arr,int target,int[][]dp ){
+    public static boolean memoization(int idx,int[] arr,int target,int[][]dp ){
         // since in the recursive code we can see two variables index and sum are changing so, we make dp of dp[idx][sum] target =[0 to target]
         // idx =0 to n-1 don't make  boolean dp
         if(idx==arr.length) return(target == 0);
         if(dp[idx][target]!=-1) return (dp[idx][target]==1);
         boolean ans = false;
-        boolean skip =  memoization(idx, arr, target,dp );
+        boolean skip =  memoization(idx+1, arr, target,dp );
         if(target-arr[idx]<0)ans = skip;
         else{
             boolean pick = memoization(idx+1,arr,target-arr[idx],dp);
             ans = pick||skip;
         }
-         if(ans) dp[idx][target] =1;
+         if(ans) dp[idx][target] =1;// or dp[idx][target] =ans?1:0;
          else dp[idx][target] =0;
         return ans;
     }
@@ -62,4 +68,25 @@ public class SubSetSum {
 T.C =O(N*(T+1))
 S.C =O(N*(T+1))
  */
+/*=============================Changing idx movements from 0 to n-1 ============================================================================*/
+public static boolean memoization_1(int idx,int[] arr,int target,int[][]dp ) {
+    // since in the recursive code we can see two variables index and sum are changing so, we make dp of dp[idx][sum] target =[0 to target]
+    // idx =0 to n-1 don't make  boolean dp
+    if (idx == -1) return (target == 0);
+    if (dp[idx][target] != -1) return (dp[idx][target] == 1);
+    boolean ans = false;
+    boolean skip = memoization(idx - 1, arr, target, dp);
+    if (target - arr[idx] < 0) ans = skip;
+    else {
+        boolean pick = memoization(idx - 1, arr, target - arr[idx], dp);
+        ans = pick || skip;
+    }
+    if (ans) dp[idx][target] = 1;// or dp[idx][target] =ans?1:0;
+    else dp[idx][target] = 0;
+    return ans;
 }
+/*======================================= Result is same =======================================================================================*/
+
+
+}
+

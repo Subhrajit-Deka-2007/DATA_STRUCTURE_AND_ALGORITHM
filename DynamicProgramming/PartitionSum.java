@@ -58,12 +58,41 @@ public class PartitionSum {
             return ans;
         }
 /*
-T.C =O(N*(T+1))
+T.C =O(N*(T+1)) but i observe it is o(n) but still for a bigger bound where n*(t+1) are unique calls 
 S.C =O(N*(T+1))
  */
+        public static boolean  tabulation(int [] nums){
+
+            int sum =0;
+            for(int ele : nums) sum+=ele;
+            if(sum%2 !=0) return false;
+            int target = sum/2;
+            int [][] dp = new int[nums.length][target+1];// here columns represent target
+            for(int i =0;i<dp.length;i++){
+                for(int j =0;j<dp[0].length;j++){
+                    /*
+                     The j represent the target which is going from 0 to target but during algo
+                     we only focussed on the index
+                     */
+                    boolean  ans = false;
+                    boolean skip =(i>0)?(dp[i-1][j]==1):(j==0);// i<1 base case hit there also two conditions
+                    if(j-nums[i]<0)ans = skip;
+                    else{
+                        boolean pick =(i>0)?(dp[i-1][j-nums[i]]==1):(j==0);
+                        ans = skip||pick;
+                    }
+                    dp[i][j] = (ans)?1:0;
+                }
+            }
+            return (dp[nums.length-1][target]==1);
+        }
+        /*
+        T.C =O(N*(T+1))
+        S.C =O(N*(T+1))
+         */
     }
 
-    /**0 ms solution
+    /**0 ms solution --> using bitwise concept
      * import java.util.*;
      *
      * class Solution {

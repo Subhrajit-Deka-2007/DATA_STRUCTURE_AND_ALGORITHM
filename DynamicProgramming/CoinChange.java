@@ -33,7 +33,7 @@ package DynamicProgramming;
  */
 public class CoinChange {
     public static void main(String[] args) {
-        int[] coins = {1, 2, 5};
+        int[] coins = {1, 2, 3};
         int amount = 11;
         System.out.println(coinChange(coins, amount));
     }
@@ -73,30 +73,86 @@ public class CoinChange {
         long take = 1 + take_skip_1(idx, coins, amount - coins[idx]);
         return Math.min(skip, take);
     }
-/*======================================DP : RECURSION + MEMOIZATION ===============================================================================*/
-public int coinChange_2(int[] coins, int amount) {
-    // here two variables idx and amount are changind so we make a 2d DP array dp[coins.length][amount+1]
-    // amount changing from [0 to amount ] amount also included
-    long [][] dp = new long [coins.length][amount+1];
-    for(int i =0;i<dp.length;i++)for(int j =0;j<dp[0].length;j++) dp[i][j]=-1;
-    int ans = (int)take_skip_1(0,coins,amount,dp);
-    if(ans == Integer.MAX_VALUE) return -1;
-    return ans;
-}
-    public static long take_skip_1(int idx, int[] coins, int amount,long [][] dp) {
+
+    /*======================================DP : RECURSION + MEMOIZATION ===============================================================================*/
+    public int coinChange_2(int[] coins, int amount) {
+        // here two variables idx and amount are changing so, we make a 2d DP array dp[coins.length][amount+1]
+        // amount changing from [0 to amount ] amount also included
+        long[][] dp = new long[coins.length][amount + 1];
+        for (int i = 0; i < dp.length; i++) for (int j = 0; j < dp[0].length; j++) dp[i][j] = -1;
+        int ans = (int) take_skip_1(0, coins, amount, dp);
+        if (ans == Integer.MAX_VALUE) return -1;
+        return ans;
+    }
+
+    public static long take_skip_1(int idx, int[] coins, int amount, long[][] dp) {
         if (idx == coins.length) {
             if (amount == 0) return 0;
             else return Integer.MAX_VALUE;
         }
-        if(dp[idx][amount]!=-1) return dp[idx][amount];
-        long skip = take_skip_1(idx + 1, coins, amount,dp);
-        if (amount - coins[idx] < 0) return skip;
-        long take = 1 + take_skip_1(idx, coins, amount - coins[idx],dp);
+        if (dp[idx][amount] != -1) return dp[idx][amount];
+        long skip = take_skip_1(idx + 1, coins, amount, dp);
+        if (amount - coins[idx] < 0) return dp[idx][amount] = skip;
+        long take = 1 + take_skip_1(idx, coins, amount - coins[idx], dp);
         return dp[idx][amount] = Math.min(skip, take);
     }
+
     /*
     T.C =O(N*(AMOUNT+1))// REPRESENT NUMBER OF UNIQUE CALLS
     S.C =O(N*(AMOUNT+1))
+    Leet Code 2915 H/W => Hint 0/1 knapsack
      */
-/*===================================================DP : RECURSION + MEMO ===============================================================*/
+    /*===================================================DP : RECURSION + MEMO ===============================================================*/
+    /*===================================================DP " TABULATION ============================================================================*/
+    public int tabulation(int[] coins, int amount) {
+        // we just change i --> 0 to n-1 we changed it to i --> n-1 to 0 and amount ---> amount to 0
+        int n = coins.length;
+        long[][] dp = new long[n][amount + 1];
+        for (int i = 0; i < dp.length; i++) {
+            for (int j = 0; j < dp[0].length; j++) {
+                long skip = (i > 0) ? dp[i - 1][j] : ((j == 0) ? 0 : Integer.MAX_VALUE);
+                /* i<0 means we are in base case and there is two things we return in base case */
+                if (j - coins[i] < 0) dp[i][j] = skip;
+                else {
+                    long pick = 1 + dp[i][j - coins[i]];// no base case needed as we hit else only when (j-coins[i]>=0)
+                    dp[i][j] = Math.min(skip, pick);
+                }
+            }
+        }
+        for (int i = 0; i < dp.length; i++) {
+            for (int j = 0; j < dp[0].length; j++) System.out.print(dp[i][j] + " ");
+            System.out.println();
+        }
+        int ans = (int) dp[n - 1][amount];
+        if (ans == Integer.MAX_VALUE) return -1;
+        return ans;
+    }
+
+    /*
+    T.C =O(N*(AMOUNT+1))
+    S.C =O(N*(AMOUNT+1))
+     */
+    /*=============================================DP :TABULATION(SPACE OPTIMIZATION)=================================================================*/
+// TAKING ONLY TWO ROWS
+    public int tabulation_1(int[] coins, int amount) {
+        // we just change i --> 0 to n-1 we changed it to i --> n-1 to 0 and amount ---> amount to 0
+        int n = coins.length;
+        long[][] dp = new long[2][amount + 1];
+        for (int i = 0; i < dp.length; i++) {
+            for (int j = 0; j < dp[0].length; j++) {
+                long skip = (i > 0) ? dp[0][j] : ((j == 0) ? 0 : Integer.MAX_VALUE);
+                /* i<0 means we are in base case and there is two things we return in base case */
+                if (j - coins[i] < 0) dp[1][j] = skip;
+                else {
+                    long pick = 1 + dp[1][j - coins[i]];// no base case needed as we hit else only when (j-coins[i]>=0)
+                    dp[1][j] = Math.min(skip, pick);
+                }
+            }
+            // NOW COPY , PASTE IT
+            for(int j =0;j<dp[0].length;j++)dp[0][j]=dp[1][j];
+        }
+        int ans = (int) dp[0][amount];
+        if (ans == Integer.MAX_VALUE) return -1;
+        return ans;
+    }
 }
