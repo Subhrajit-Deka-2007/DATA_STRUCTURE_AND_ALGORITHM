@@ -215,7 +215,7 @@ public int tabulation_3(List<Integer>nums,int target ){
         }
     }
     int ans = (int )dp[nums.size()-1][target];
-    //    if(nums.size()==1&&nums.get(0)==target) return 1;
+
     if(ans<0)return -1;
     return ans;
 }
