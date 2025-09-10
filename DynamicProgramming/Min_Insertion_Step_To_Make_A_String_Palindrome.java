@@ -67,5 +67,8 @@ public class Min_Insertion_Step_To_Make_A_String_Palindrome {
     /*
     T.C = SAME AS OF LPS 0(S1.LENGTH*S2.LENGTH) => NUMBER OF UNIQUE CALLS
     S.C = O(S1.LENGTH*S1.LENGTH)
+     for deletion question of minimum number of elements to make a palindrome same question String.length()-LPS
+    as LPS contain the largest palindrome subsequence so that part is already palindrome just remove the remaining element
+    H/W : LEETCODE 583
      */
 }

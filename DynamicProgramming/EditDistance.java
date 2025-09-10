@@ -115,7 +115,7 @@ public class EditDistance {
         if (i == -1) return j + 1;
         if (j == -1) return i + 1;
         if(dp[i][j]!=-1) return dp[i][j];
-        if (a.charAt(i) == b.charAt(j)) return minSteps_1(i - 1, j - 1, a, b,dp);
+        if (a.charAt(i) == b.charAt(j)) return dp[i][j]=minSteps_1(i - 1, j - 1, a, b,dp);
         else {
             int del = minSteps_1(i - 1, j, a, b,dp);
             int ins = minSteps_1(i, j - 1, a, b,dp);
@@ -125,6 +125,38 @@ public class EditDistance {
     }
      /*
     T.C = O(s1.length()*s2.length())
-    S.C =O(s1.length()*s2.length())
+    S.C =O(s1.length()*s2.length()(2d array) stack space )
+    */
+/*================================== DP : TABULATION ==========================================================================================*/
+    // converting tabulation just change i --> m-1 to 0 to 0 to m-1 and on the basis of the change code logic don't do
+    // anything with the column
+     public int tabulation(String word1, String word2){
+         // we can remove StringBuilder as we don't wamt stringbuilder now
+         if(word1.length()==0) return word2.length();// means one is empty and need word2.length()number of same elements should be inserted to be identical means we can say that many operation are needed
+         if(word2.length()==0) return word1.length();
+         StringBuilder a = new StringBuilder(word1);
+         StringBuilder b = new StringBuilder(word2);
+         int m = a.length(), n = b.length();
+         int [][] dp = new int [m][n];
+         for(int i =0;i<m;i++){
+             for(int j =0;j<n;j++){
+                 if(a.charAt(i)==b.charAt(j)) dp[i][j] = (i>0&&j>0)?dp[i-1][j-1]:(i==0)?j:i;// why as index  become negative when i is 0 here case is liitle bit different see the copy here index becomes negative at 0 itself so see the copy why j is written
+                 else{
+                     int del =  (i>0)?dp[i-1][j]:j;
+                     // so we are returning j as [i-1] become negative only when i =0
+                     // but we return i+1 when j =-1 so we had return i so we get the answer before we do     i+1 so it is giving me answer at i =0 so before going see the copy
+                     int ins = (j>0)?dp[i][j-1]:i;
+                     int rep =  (i>0&&j>0)?dp[i-1][j-1]:(i==0)?j:i ;
+                     dp[i][j] = 1+ Math.min(del,Math.min(ins,rep));
+                 }
+             }
+         }
+         return dp[m-1][n-1];
+     }
+    /*
+    T.C =O(M*N)
+    S.C =O(M*N)
     */
 }
+
+

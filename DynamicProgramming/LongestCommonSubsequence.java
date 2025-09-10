@@ -41,9 +41,9 @@ public class LongestCommonSubsequence {
         StringBuilder s1 = new StringBuilder(text1);
         StringBuilder s2 = new StringBuilder(text2);
         longestCommonSubsequence_3(s1, s2, 0, 0, s1.length() - 1, s2.length() - 1);
-        int[][] dp= new int[text1.length()][text2.length()];
-        for(int i =0;i<dp.length;i++)for(int j =0;j<dp[0].length;j++)dp[i][j]=-1;
-         longestCommonSubsequence_4(s1,s2,0,0,text1.length()-1,text2.length()-1,dp);
+        int[][] dp = new int[text1.length()][text2.length()];
+        for (int i = 0; i < dp.length; i++) for (int j = 0; j < dp[0].length; j++) dp[i][j] = -1;
+        longestCommonSubsequence_4(s1, s2, 0, 0, text1.length() - 1, text2.length() - 1, dp);
 
 
     }
@@ -108,45 +108,63 @@ public class LongestCommonSubsequence {
         also
          */
         if (s1i > s1e || s2i > s2e) return 0;//  or we can write if (s1e<0||s2e<0) return 0;
-        if(dp[s1e][s2e]!=-1) return dp[s1e][s2e];
+        if (dp[s1e][s2e] != -1) return dp[s1e][s2e];
         if (s1.charAt(s1e) == s2.charAt(s2e))
-            return dp[s1e][s2e] = 1 + longestCommonSubsequence_4(s1, s2, s1i, s2i, s1e - 1, s2e - 1,dp);
+            return dp[s1e][s2e] = 1 + longestCommonSubsequence_4(s1, s2, s1i, s2i, s1e - 1, s2e - 1, dp);
         else// s1e and s2e is used as s1i and s2i are constant
-            return dp[s1e][s2e] = Math.max(longestCommonSubsequence_4(s1, s2, s1i, s2i, s1e, s2e - 1,dp), longestCommonSubsequence_4(s1, s2, s1i, s2i, s1e - 1, s2e,dp));
+            return dp[s1e][s2e] = Math.max(longestCommonSubsequence_4(s1, s2, s1i, s2i, s1e, s2e - 1, dp), longestCommonSubsequence_4(s1, s2, s1i, s2i, s1e - 1, s2e, dp));
     }
+
     /*
     T.C =O(S1.LENGTH()*S2,LENGTH())---> REPRESENT NUMBER 0F UNIQUE CALLS
     S.C =O(S1.LENGTH()*S2.LENGTH()(EXTRA ARRAY) + FIND THE STACK SPACE)
      */
-    public int tabulation(String s1, String  s2){
+    public int tabulation(String s1, String s2) {
         int[][] dp = new int[s1.length()][s2.length()];
-        for(int i =0;i<dp.length;i++){
-            for(int j =0;j<dp[0].length;j++){
-                if(s1.charAt(i)==s2.charAt(j))dp[i][j]=1+((i>0&&j>0)?dp[i-1][j-1]:0);
-                else dp[i][j] = Math.max(((i>0)?dp[i-1][j]:0),((j>0)?dp[i][j-1]:0));
+        for (int i = 0; i < dp.length; i++) {
+            for (int j = 0; j < dp[0].length; j++) {
+                if (s1.charAt(i) == s2.charAt(j)) dp[i][j] = 1 + ((i > 0 && j > 0) ? dp[i - 1][j - 1] : 0);
+                else dp[i][j] = Math.max(((i > 0) ? dp[i - 1][j] : 0), ((j > 0) ? dp[i][j - 1] : 0));
             }
         }
-        return dp[s1.length()-1][s2.length()-1];
+        return dp[s1.length() - 1][s2.length() - 1];
         /*
          T.C =O(S1.LENGTH()*S2,LENGTH())
          S.C =O(S1.LENGTH()*S2.LENGTH())
          */
     }
-// To avoid base case and ternary operator we are increasing the size of the array by (m+1)*(n+1)
-public int tabulation_1(String s1, String  s2){
-    int[][] dp = new int[s1.length()+1][s2.length()+1];
-    // To avoid base case or ternary operator we increase the size of the array and fill the first row and first column with base case
-    // my thought process
-    for(int i =1;i<dp.length;i++){
-        for(int j =1;j<dp[0].length;j++){
-            if(s1.charAt(i-1)==s2.charAt(j-1))dp[i][j]=1+dp[i-1][j-1];
-            else dp[i][j] = Math.max(dp[i-1][j],dp[i][j-1]);
+
+    // To avoid base case and ternary operator we are increasing the size of the array by (m+1)*(n+1)
+    public int tabulation_1(String s1, String s2) {
+        int[][] dp = new int[s1.length() + 1][s2.length() + 1];
+        // To avoid base case or ternary operator we increase the size of the array and fill the first row and first column with base case
+        // my thought process
+        for (int i = 1; i < dp.length; i++) {
+            for (int j = 1; j < dp[0].length; j++) {
+                if (s1.charAt(i - 1) == s2.charAt(j - 1)) dp[i][j] = 1 + dp[i - 1][j - 1];
+                else dp[i][j] = Math.max(dp[i - 1][j], dp[i][j - 1]);
+            }
         }
-    }
-    return dp[s1.length()][s2.length()];
+        return dp[s1.length()][s2.length()];
         /*
          T.C =O(S1.LENGTH()+1*S2,LENGTH()+1)
          S.C =O(S1.LENGTH()+1*S2.LENGTH()+1)
          */
-}
+    }
+
+    public int tabulation_2(String s1, String s2) {
+        // Space optimization but time complexity increase because of copy paste
+        int[][] dp = new int[2][s2.length() + 1];
+        // To avoid base case or ternary operator we increase the size of the array and fill the first row and first column with base case
+        // my thought process
+        for (int i = 1; i < dp.length; i++) {
+            for (int j = 1; j < dp[0].length; j++) {
+                if (s1.charAt(i - 1) == s2.charAt(j - 1)) dp[1][j] = 1 + dp[0][j - 1];
+                else dp[i][j] = Math.max(dp[0][j], dp[1][j - 1]);
+            }
+            // now copy the first row to 0th for next time
+            for(int j =0;j<dp[0].length;j++)dp[0][j]=dp[1][j];
+        }
+        return dp[1][s2.length()];
+    }
 }
