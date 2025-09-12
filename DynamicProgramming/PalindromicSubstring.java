@@ -76,6 +76,8 @@ public int countSubstrings(String s) {
 /*
 T.C =O(N^2)
 S.C =O(N^2)
+h/w longest palindromic substring leet code 5 same concept used copy paste
+dp on strings finished
  */
 
 

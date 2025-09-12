@@ -33,10 +33,12 @@ public class Unique_BST {
 
     public int numTrees(int n) {
 
-        if(n<=1) return 1;
-        int [] dp = new int [n+1];
-        dp[0] =1;dp[1]=1;dp[2]=2;
-        for(int i =3;i<=n;i++) for(int j = 1;j<=i;j++)dp[i]+=(dp[j-1]*dp[i-j]);
+        if (n <= 1) return 1;
+        int[] dp = new int[n + 1];
+        dp[0] = 1;
+        dp[1] = 1;
+        dp[2] = 2;
+        for (int i = 3; i <= n; i++) for (int j = 1; j <= i; j++) dp[i] += (dp[j - 1] * dp[i - j]);
 
         return dp[n];
     }
@@ -46,6 +48,42 @@ public class Unique_BST {
  Try the recursion By yourself
  */
 
+
+    public int numTree(int n) {
+        // A memoization array to store results for n nodes.
+        int[] memo = new int[n + 1];
+        return solve(n, memo);
+    }
+
+    private int solve(int n, int[] memo) {
+        // Base Cases:
+        // There's 1 way to make an empty tree (0 nodes)
+        // and 1 way to make a tree with a single node (1 node).
+        if (n <= 1) {
+            return 1;
+        }
+
+        // Check if we've already calculated the answer for n.
+        if (memo[n] > 0) {
+            return memo[n];
+        }
+
+        int total = 0;
+        // The core logic: iterate through all possible root nodes.
+        for (int i = 1; i <= n; i++) {
+            // For a root 'i', there are 'i-1' nodes on the left
+            // and 'n-i' nodes on the right.
+            int leftSubtrees = solve(i - 1, memo);
+            int rightSubtrees = solve(n - i, memo);
+
+            // The total for this root is the product of the possibilities.
+            total += leftSubtrees * rightSubtrees;
+        }
+
+        // Save the result before returning.
+        memo[n] = total;
+        return total;
+    }
 }
 /* Tried by me
 public void  rec (int n,int[] sum,int r){
