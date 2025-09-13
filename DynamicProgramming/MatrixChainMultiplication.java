@@ -2,11 +2,13 @@ package DynamicProgramming;
 
 public class MatrixChainMultiplication {
     public static void main(String[] args) {
-        int [][] arr ={{1,2},{2,3},{3,4},{4,2}};
+        int [][] arr ={{1,2},{2,3},{3,4}};
         System.out.println(mcm(0,arr.length-1,arr));
-        int[] array ={1,2,3,4,2};
+        int[] array ={1,2,3,4};
         System.out.println(mcm_2(0,array.length-2,array));
         System.out.println(mcm_3(1,array.length-1,array));
+        dp_memo(array);
+        System.out.println(tabulation(array));
     }
 
     private static int  mcm(int i, int j, int[][] arr) {
@@ -50,7 +52,7 @@ public class MatrixChainMultiplication {
         return minCost;
     }
     /*
-    RECURSIVE T.C = EXPONENTIAL
+    RECURSIVE T.C = EXPONENTIAL not exponential it is cubic
      */
 /** Now lets use DP  The 2D array input format is also 1D only
  * FOR DP  I AND J ARE CHANGING SO WE WILL FORM 2D ARRAY SIZE OF THE 2D ARRAY ROW DEPEND ON WHERE IS GOING FROM WHERE TO WHERE
@@ -64,7 +66,7 @@ public class MatrixChainMultiplication {
 /*
                DP : Dynamic Programming
  */
-    public void dp_memo(int[] arr){
+    public static  void dp_memo(int[] arr){
         int[][] dp = new int[arr.length-1][arr.length-1];
         for(int i =0;i<dp.length;i++)for(int j =0;j<dp[0].length;j++)dp[i][j]=-1;
         System.out.println(mcm_4(0,arr.length-2,arr,dp));
@@ -81,7 +83,56 @@ public class MatrixChainMultiplication {
         return dp[i][j]= minCost;
     }
     /**
-     * T.C =O((N-1)*(N-1)) => NUMBER OF UNIQUE CALLS
+     * T.C =O((N-1)*(N-1)) => NUMBER OF UNIQUE CALLS no it is not n^2 as inside the recursion there is also a loop used so t.c is o(n^3)
      * S.C =O((N-1)*(N-1)+ STACK SPACE)
+     * // we can convert it into tabulation for that i should be start from 0 and it should go from left to right as in this question it is
+     * already going from left to right no need to change now use the tabulation on the basis of that it is important if we want to
+     * convert into tabulation just convert that i from 0 to n-1 if it is going from n-1 to 0 and on the basis of that change the code and
+     * use the tabulation
+
+
+
+     FOR T.C DISCUSS WITH GPT
      */
+
+
+/*=================================================== DP : TABULATION ===========================================================================*/
+
+public static int tabulation(int [] array){
+    /*
+    HERE i ,going from --> 0 to n-2
+    and j going from ---> n-2 to 0
+    So in tabulation we will change from i -->n-2 to 0
+    and j from 0 to n-2
+     */
+    int [][] dp = new int [array.length-1][array.length-1];
+    for(int i =dp.length-1;i>=0;i--){
+        /* As the size ia already n-1 so, it index will be simple dp.length-1 means i = n-2  as we are changing i from n-2 to 0
+         */
+        for(int j=0;j<dp.length;j++ ){// we are changing j from 0 to n-2
+            if(i==j) {
+                dp[i][j]=0;// it was return 0
+                continue;// we will not calculate further see the code of rec+ memo we will not calculate for it
+                // as if we don't stop there and start calculating further there is possibility that dp[i][j] will contain more smaller
+                // value then 0 then it will manipulate other cell result as dp[i][j] for a current cell answer many cell answer is related
+                // DP is using other cell result for the current cell result
+            }
+
+            int minCost =Integer.MAX_VALUE;
+            for(int k =i;k<j;k++){
+                int x = array[i]*array[k+1]*array[j+1];
+                int total = dp[i][k]+dp[k+1][j]+x;
+                minCost = Math.min(minCost,total);
+            }
+            dp[i][j] =minCost;
+        }
+    }
+    return dp[0][array.length-2];// or return dp[0][dp.length-1] as dp length is n-1 so, we can do that also
+    /* to know where the answer is stored for that we had called we want mcm from 0 to n-2 for that we made recursive call
+    mcm(0,n-2,arr,dp) so we will return 0,n-2 as logic i know only in recursion the answer will get store from where we had called
+    means it will return after call and at last store the final answer in the cell from where we had called
+     */
+}
+
+
 }
