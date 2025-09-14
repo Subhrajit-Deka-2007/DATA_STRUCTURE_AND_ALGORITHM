@@ -3,6 +3,7 @@ package BitManipulation;
 import java.util.Scanner;
 
 /**
+ * Q) Turn Off the rightmost Set Bit
  * We have to look from the right side and find out that first right most bit that is turn on and we have to turn it off we are not given k
  */
 public class RightMostSetBit {
@@ -17,7 +18,9 @@ public class RightMostSetBit {
         Scanner sc = new Scanner(System.in);
         int num = sc.nextInt();
         System.out.println(" After turning the rightmost turn on bit the number is "+method_1(num));
+        System.out.println(" After turning the rightmost turn on bit the number is "+method_2(num));
     }
+
     public static int method_1(int num){
         int b = num;
         int k =0;
@@ -35,5 +38,20 @@ public class RightMostSetBit {
         Now we will be taking & with the mass and the number
          */
         return (num&mass);
+        /*
+        T.C =O(31) OR LOG 2 N => N IS DECIMAL NUMBER
+        100000------0=> 31 zeros
+         */
     }
+    public static int method_2(int num){
+        /**
+         * If we turn do & with n and n-1 the rightmost turn on bit of n get turn off
+         */
+        return (num&num-1);
+        /*
+        T.C =O(1)
+        S.C =O(1)
+         */
+    }
+
 }
