@@ -164,7 +164,7 @@ S.C =O(N)
  */
 /*==================================================== M-5 ends ========================================================================================*/
 public int singleNumber_6(int [] nums){
-    int ele = 0;
+    int ele = 0;// XOR ing of number with 0 gives the given number itself and with 1 it toggles the bits
     for(int i =0;i<nums.length;i++) ele =ele^nums[i];
 
     return ele;
