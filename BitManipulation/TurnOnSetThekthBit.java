@@ -9,9 +9,15 @@ public class TurnOnSetThekthBit {
         int n =sc.nextInt();
         System.out.println(" Enter the the bit that you want to toggle ");
         int t = sc.nextInt();
-        System.out.println(" Number after turning on that "+t+" th bit is "+turnOnKth(n,t));
+        System.out.println(" The  "+t+" th bit is  turn ON "+turnOnKth(n,t));
+        System.out.println(" The  "+t+" th bit is  turn ON "+turnOnKth_2(n,t));
     }
-    public static int turnOnKth(int num,int k){
-        return num|(1<<k);
+    public static boolean  turnOnKth(int num,int k){
+        return (num|(1<<k))==num;
+    }
+    public static boolean turnOnKth_2(int num,int k){
+//        num =num>>k;
+//        return !(num%2==0);
+        return !((num>>k)%2==0);
     }
 }
