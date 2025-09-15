@@ -89,5 +89,14 @@ public class NumberOfOneBits {
         S.C = O(1)
          */
     }
+    public int hammingWeight(int n){
+        int count =0;
+        int mask ;
+        for(int i =0;i<32;i++){
+             mask =(1<<i);
+            if((n&mask)!=0)count++;
+        }
+        return count;
+    }
 
 }
