@@ -73,5 +73,8 @@ public class XORQueriesOfSubarray {
              */
         }
     }
+/**
+ * LEETCODE 1486 : XOR OPERATION IN ARRAY H/W => we have to do in o(1) time hint : observation
+ */
 
 
