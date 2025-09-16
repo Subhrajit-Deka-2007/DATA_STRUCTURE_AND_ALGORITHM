@@ -39,6 +39,7 @@ public class XORQueriesOfSubarray {
          Brut force : Traverse the query array and traverse according to the given queries T.C not good
          if each query is 1 to n and there are m queries m and n are big
          so for outer loop m and for inner loop n so t.c =o(m*n)
+         2ND OPTIMIZE FOR THAT WE JUST MAKE AN EXTRA ARRAY TO STORE PREFIX XOR BUT WE CAN DO IT USING EXTRA SPACE ALSO
          */
         int xor = 0;
         // first we have to find the prefix xor of each element
@@ -56,4 +57,21 @@ public class XORQueriesOfSubarray {
     T.C =O(N+q)
     S.C =O(1)
      */
-}
+
+    public int[] brut_force_2(int [] arr, int [][] queries){
+
+            int n = arr.length,m =queries.length;
+            int [] ans = new int[m];
+            for(int i =0;i<m;i++){
+                int left = queries[i][0],right = queries[i][1];
+                for(int j = left;j<=right;j++) ans[i]^=arr[j];
+            }
+            return ans;
+            /*
+            t.c =o(m*n)
+            s.c =o(1)
+             */
+        }
+    }
+
+
