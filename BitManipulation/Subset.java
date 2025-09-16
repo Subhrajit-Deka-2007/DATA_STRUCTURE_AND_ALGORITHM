@@ -39,6 +39,7 @@ public class Subset {
      /*
      Take it or Skip it
       Take it
+       Each element has two option either take it or skip it
       */
         ls.add(nums[idx]);
         subset_1(idx+1,nums,ls,list);
@@ -50,5 +51,24 @@ T.C =O(2^N-1) EULER'S TREE
 S.C =O(N) WHERE N IS THE LENGTH OF THE ARRAY
 */
     }
+    public List<List<Integer>> subset_4(int [] nums){
+        List<List<Integer>> ans = new ArrayList<>();
+        int n = nums.length;
+        int total = 1<<n;
+        for(int num = 0;num<total;num++){
+            List<Integer> list = new ArrayList<>();
+            for(int bitIdx =0;bitIdx<n;bitIdx++){
+                int mask = (1<<bitIdx);
+                if((num&mask)!=0)// means the bit was set now add that element to the arraylist
+                    list.add(nums[bitIdx]);
+            }
+            ans.add(list);
+        }
+        return ans;
+    }
+/*
+t.c = for each 2^n we are traversing n time so t.c = O((2^N)*N)
+S.C = O(1) NO EXTRA SPACE USED 
+ */
 }
 
