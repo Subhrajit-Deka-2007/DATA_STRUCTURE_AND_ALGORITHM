@@ -55,6 +55,7 @@ public class NumberOfProvinses {
         }
 
         public void bfs(int i, boolean[] vis, int[][] adj) {
+            // Using BFS
             vis[i] = true;
             Queue<Integer> q = new LinkedList<>();
             q.add(i);
