@@ -1,6 +1,7 @@
 package Graphs;
 
 import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Queue;
 
@@ -41,16 +42,27 @@ import java.util.Queue;
  */
 public class KeysandRoom {
     public static void main(String[] args) {
-
+        List<List<Integer>> list = new ArrayList<>();
+        // [1],[2],[3],[]
+        for(int i =0;i<4;i++)list.add(new ArrayList<>());
+        list.get(0).add(1);
+        list.get(1).add(2);
+        list.get(2).add(3);
+        System.out.println(list);
+        System.out.println(canVisitAllRooms(list));
     }
-    public boolean canVisitAllRooms(List<List<Integer>> rooms) {
+    public static boolean canVisitAllRooms(List<List<Integer>> rooms) {
         // when we are given 2d lists like this means  we are given adjacency list means
             int [] count = {0};
             int n = rooms.size();
             boolean [] vis = new boolean[n];
+/*                    BFS started
             vis[0] = true;
             count[0]++;
             bfs(0,rooms,vis,count);
+
+ */
+            dfs(0,rooms,vis,count);
             return(count[0]==vis.length);
         }
         public void bfs(int start, List<List<Integer>> adj , boolean [] vis , int [] count ){
@@ -78,6 +90,11 @@ public class KeysandRoom {
  A.S =O(Visited Array + Queue )
  =O(N)+o(n) let one element of a list contain all elemnt so let say all element enter in QUEUE so t.c =o(n)
  */
+public static void dfs(int start , List<List<Integer>>adj,boolean [] vis,int [] count){
+    vis[start] = true;
+    count[0]++;
+    for(int ele : adj.get(start))if(!vis[ele])dfs(ele,adj,vis,count);
+}
 
     }
 
