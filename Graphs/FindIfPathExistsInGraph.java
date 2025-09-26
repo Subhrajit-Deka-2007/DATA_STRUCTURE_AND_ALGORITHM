@@ -83,6 +83,14 @@ public class FindIfPathExistsInGraph {
     T.C =O(V+2E)
     S.C =O(N(FOR QUEUE)+N(FOR VISITED ARRAY ) + V+2E OR N+2E) where n =  Number of Nodes
      */
-
+    public void dfs(int i , List<List<Integer>> adj, boolean [] vis, int end){
+        vis[i] = true;
+        for(int ele : adj.get(i)){
+            if(!vis[ele]){
+                dfs(ele,adj,vis,end);
+                if(ele==end) return ;
+            }
+        }
+    }
     }
 
