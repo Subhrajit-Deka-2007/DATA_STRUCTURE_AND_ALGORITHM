@@ -1,6 +1,5 @@
 package Graphs;
 
-import java.util.ArrayDeque;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -48,8 +47,11 @@ public class NumberOfProvinses {
             int count = 0;
             boolean[] vis = new boolean[n];
             for (int i = 0; i < n; i++) {
-                if (!vis[i]) bfs(i, vis, adj);
-                count++;
+                if (!vis[i]) {// bfs(i, vis, adj);
+                    dfs(i, vis, adj);
+
+                    count++;
+                }
             }
             return count;
         }
@@ -70,6 +72,16 @@ public class NumberOfProvinses {
                 }
             }
 
+        }
+        private void dfs(int i , boolean [] vis ,int[][] adj){
+            // No base case is needed as there is no error for index out of bounds or anything as we are calling in a calculated way
+            vis[i] = true;
+            // use dfs on that nodes which are connected to i so for that
+            for(int j =0;j<adj.length;j++) if(adj[i][j]==1 && !vis[j] )dfs(j,vis,adj);
+            /**
+             * Here we want one node will call multiple person so, it is preferable that in starting only we make an adjacency list
+             * . So, that more call is not called so, is preferable that convert the adjacency matrix to adjacency lists . Then use DFS
+             */
         }
     }
 
