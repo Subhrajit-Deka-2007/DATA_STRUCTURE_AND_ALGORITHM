@@ -45,16 +45,17 @@ public class CourseSchedule {
     public static void main(String[] args) {
 
     }
+
     public boolean canFinish(int numCourses, int[][] pre) {
         /* Will be using khan's algo and if the prerequisites froming a cycle then
         we cannot complete the course and if it is not forming a cycle then we cannot complete the  course */
 
         List<List<Integer>> adj = new ArrayList<>();
-        for(int i =0;i<numCourses;i++)adj.add(new ArrayList<>());
+        for (int i = 0; i < numCourses; i++) adj.add(new ArrayList<>());
         // Now form a graph given [a,b] means it should be b -->a
-        int a,b;
-        int [] indegree = new int [numCourses];
-        for(int i =0;i<pre.length;i++){
+        int a, b;
+        int[] indegree = new int[numCourses];
+        for (int i = 0; i < pre.length; i++) {
             a = pre[i][0];
             b = pre[i][1];// b-->a
             adj.get(b).add(a);
@@ -70,28 +71,63 @@ public class CourseSchedule {
         /* Kahn's Algorithm: In kahn's algorithm we don't need visited array at all  */
         Queue<Integer> q = new LinkedList<>();
         List<Integer> ans = new ArrayList<>();
-        int count =0;
-        for(int i =0;i<numCourses;i++){
-            if(indegree[i]==0)q.add(i);
+        int count = 0;
+        for (int i = 0; i < numCourses; i++) {
+            if (indegree[i] == 0) q.add(i);
 
-            else count ++;
+            else count++;
         }
-        if(count==numCourses)return false;
-        while(!q.isEmpty()){
+        if (count == numCourses) return false;
+        while (!q.isEmpty()) {
             int front = q.remove();
             /* we initially put the elements whose indegree is zero okay now we are doing operations on the elements that are connected to it */
             ans.add(front);
-            for(int ele:adj.get(front)){
+            for (int ele : adj.get(front)) {
                 indegree[ele]--;
-                if(indegree[ele]==0) q.add(ele);
+                if (indegree[ele] == 0) q.add(ele);
 
             }
         }
-        return(ans.size()==numCourses);
+        return (ans.size() == numCourses);
     }
     /*
 T.C =O(V+E) DIRECTED GRAPH
-A.S =O(INDEGREE + QUEUE)
+A.S =O(IN DEGREE + QUEUE)
 */
 
+    /**
+     * ============================================= COURSE SCHEDULE USING DFS =============================================================
+     */
+    public boolean canFinish_1(int numCourses, int[][] pre) {
+        boolean[] ans = {true};//Initially we consider there is no cycle
+        List<List<Integer>> adj = new ArrayList<>();
+        for (int i = 0; i < numCourses; i++) adj.add(new ArrayList<>());
+        int a, b;
+        for (int i = 0; i < pre.length; i++) {
+            a = pre[i][0];
+            b = pre[i][1];// b-->a
+            adj.get(b).add(a);
+        }
+        /**                                   DFS (Depth First Search )                                                             */
+        boolean[] vis = new boolean[numCourses];
+        boolean[] path = new boolean[numCourses];
+        for(int i =0;i<numCourses;i++) if(!vis[i])dfs(i, adj, vis, path, ans);
+
+        return ans[0];
+    }
+
+    public void dfs(int i, List<List<Integer>> adj, boolean[] vis, boolean[] path, boolean[] ans) {
+        vis[i] = true;
+        path[i] = true;
+        for (int ele : adj.get(i)) {
+            if (path[ele]) {// means it is already in the path only
+                ans[0] = false;
+                return;
+            }
+
+            if(!vis[ele])dfs(ele, adj, vis, path, ans);
+            /* If we don't apply the condition still works but if we use case it becomes optimize */
+        }
+        path[i] = false;
+    }
 }
