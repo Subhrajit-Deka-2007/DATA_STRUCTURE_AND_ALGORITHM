@@ -128,6 +128,5 @@ A.S = QUEUE+ VIS (SIZE OF VISITED IS V)
             }
             return false;
         }
-
     }
 }
