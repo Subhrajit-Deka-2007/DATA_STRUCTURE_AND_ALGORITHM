@@ -51,6 +51,7 @@ class PAIR implements Comparable<PAIR>{
     public int compareTo(PAIR p){
         if(this.time==p.time)return this.node -p.node;
         return this.time - p.time;
+        // or we can write Integer.compare(this.time,p.time);
     }
 }
 
@@ -101,10 +102,12 @@ public class NetworkDelayTime {
     }
     /*
     For Dijkestra algorithm we need an answer array
-    Space needed for Adjacency List = O(V+2E) // EACH EDGES IS COMING TWICE 0---1 SO O CONTAINS 1 AND 1 CONTAINS ZERO
+    Space needed for Adjacency List = O(V+2E) // EACH EDGES IS COMING TWICE 0---1 SO 0 CONTAINS 1 AND 1 CONTAINS 0
+    and V is for the node which is not connected to other node
     T.C =O(V+E)
     S.C =O(PRIORITY Queue)+ ans array
     IF THERE ARE N NODES AND EACH NODE WILL CONNECT THE REMAINING N-1 NODE SO I CAN SAY MY OBSERVATION
     S.C =O(N-1+N+1) =O(2N)
+    time complexity and space complexity calculated by me
      */
 }
