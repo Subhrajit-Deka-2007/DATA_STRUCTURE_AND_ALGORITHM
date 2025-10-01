@@ -111,7 +111,7 @@ public class PathWithMinEffort {
                     pq.add(new Triplet(row + 1, col, e));
                 }
             }
-            if (col + 1 < heights[0].length) {//  Going right and also we can write the condition col<n-1
+            if (col + 1 < heights[0].length) {//  Going right and, also we can write the condition col<n-1
                 int e = Math.abs(heights[row][col] - heights[row][col + 1]);
                 e = Math.max(e, effort);
                 if (ans[row][col + 1] > e) {
@@ -119,6 +119,39 @@ public class PathWithMinEffort {
                     pq.add(new Triplet(row, col + 1, e));
                 }
             }
+        }
+        return ans[m-1][n-1];
+    }
+/**                                        Improve code                                                                              */
+    public int minimumEffortPath_1(int[][] heights) {
+        int m = heights.length;
+        int n = heights[0].length;
+        int[][] ans = new int[m][n];
+        for(int i =0;i<heights.length;i++)for(int j =0;j<heights[0].length;j++)ans[i][j] = Integer.MAX_VALUE;
+        ans[0][0] = 0;
+        // Making a min heap of <Triplet>
+        PriorityQueue<Triplet> pq = new PriorityQueue<>();
+        pq.add(new Triplet(0, 0, 0));
+        int [] r = {-1,0,1,0};
+        int [] c = {0,-1,0,1};
+        while (!pq.isEmpty()) {
+            Triplet top = pq.remove();
+            int row = top.row;
+            int col = top.col;
+            int effort = top.effort;
+            if (row == m - 1 && col == n - 1) break;
+            for (int i = 0; i < 4; i++) {
+                int newRow = row + r[i];
+                int newCol = col + c[i];
+                if (newRow < 0 || newCol <0 || newRow > m - 1 || newCol > n - 1) continue;
+                int e = Math.abs(heights[row][col] - heights[newRow][newCol]);
+                e = Math.max(e, effort);
+                if (ans[newRow][newCol] > e) {
+                    ans[newRow][newCol] = e;
+                    pq.add(new Triplet(newRow, newCol, e));
+                }
+            }
+/**----------------------------------------------------------------------------------------------------------------------------------*/
         }
         return ans[m-1][n-1];
     }
