@@ -1,9 +1,6 @@
 package Graphs;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.PriorityQueue;
+import java.util.*;
 
 /**
  * 787. Cheapest Flights Within K Stops
@@ -78,8 +75,8 @@ public class CheapestFlightWithinKStops {
 
         }
         public int compareTo(Triplet p){
-            if(this.cost == p.cost) return this.node - p.node;
-            return this.cost - p.cost;
+            if(this.stops == p.stops) return this.node - p.node;
+            return this.stops-p.stops;
         }
 
     }
@@ -94,7 +91,9 @@ public class CheapestFlightWithinKStops {
             int [] ans = new int [n];
             Arrays.fill(ans,Integer.MAX_VALUE);
             ans[src]=0;
-            PriorityQueue<Triplet>pq = new PriorityQueue<>();
+            // PriorityQueue<Triplet>pq = new PriorityQueue<>();
+            /** Instead of priority queue we can use Queue as we had observe that we use dijkestra (modified version ) on the basis of the stops then we can see that element which get inserted first get remove first so instead of priority queue we can use Queue  */
+            Queue<Triplet> pq = new LinkedList<>();
             pq.add(new Triplet(src,0,0));
             while(!pq.isEmpty()){
                 Triplet top = pq.remove();
