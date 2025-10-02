@@ -110,4 +110,51 @@ public class NetworkDelayTime {
     S.C =O(N-1+N+1) =O(2N)
     time complexity and space complexity calculated by me
      */
+
+
+
+
+/**====================================== Solve using Bellman Ford Algorithm ========================================================*/
+// In Dijkestra for each tower we are finding its minimum time to reach it and at last we return the maximum time among all elements .
+
+public int networkDelayTime_1(int[][] times, int n, int src) {
+    /**  =============== Bellman Ford Algorithm ===================================================================*/
+    /** But if the graph was undirected convert it into directed graph if we want to use Bellman Ford Algorithm  */
+    // In these question we are already given directed array
+    int [] dist = new int [n+1]; // as we are given 1 based indexing from 1 to n so size == n+1
+    Arrays.fill(dist,Integer.MAX_VALUE);
+    dist[src]=0;
+    // We have to relax the edge for n-1 times
+    for(int i=0;i<n-1;i++){// n-1 times relax edge
+        for(int j =0;j<times.length;j++){
+            int u = times[j][0];
+            int v = times[j][1];
+            int wt = times[j][2];
+            // RELAXATION OF EDGES
+            if(dist[u]!=Integer.MAX_VALUE&&dist[u]+wt<dist[v])dist[v] = dist[u]+wt;// We call it relaxation
+
+        }
+    }
+    /* Complete bellman ford nth time relaxation for -ve detection again using the loop for the last nth time
+     for(int j =0;j<times.length;j++){
+            int u = times[j][0];
+            int v = times[j][1];
+            int wt = times[j][2];
+            // RELAXATION OF EDGES
+            if(dist[u]!=Integer.MAX_VALUE&& dist[u]+wt<dist[v])return -1;//Indicating we caught -ve cycle
+
+
+        }
+     */
+    int max =0;
+    for(int i =1;i<=n;i++){
+        if(dist[i]==Integer.MAX_VALUE) return -1;
+        max = Math.max(max,dist[i]);// it was time
+    }
+    return max;
+}
+/*
+T.C =O(V*E)// THE INNER LOOP IS EDGE
+A.S = DEPENDS ON PROBLEM(TO CONVERT IT INTO EDGE LIST OR NOT )  + ANS ARRAY(V)
+ */
 }

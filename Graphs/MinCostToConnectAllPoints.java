@@ -57,6 +57,7 @@ public class MinCostToConnectAllPoints {
     class Solution {
         public int minCostConnectPoints(int[][] points) {
             // No need for adjacency list okay we will use the given points array
+/** ============================================= PRIMS ALGORITHM ==================================================================*/
             PriorityQueue<Triplet> pq = new PriorityQueue<>();
             pq.add(new Triplet(0,-2,0));
             int sum =0;
