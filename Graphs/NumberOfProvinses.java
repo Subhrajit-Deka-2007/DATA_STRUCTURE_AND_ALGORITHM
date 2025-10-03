@@ -83,5 +83,51 @@ public class NumberOfProvinses {
              * . So, that more call is not called so, is preferable that convert the adjacency matrix to adjacency lists . Then use DFS
              */
         }
+/**====================================== SOLVE USING DSU(DISJOINT SET UNION ) =========================================================*/
+// HERE IT IS 1TH BASED INDEXING SO SIZE OF ARRAY WILL BE N+1
+
+public int findCircleNum_2(int[][] isConnected) {
+    int n = isConnected.length;// we had find the number of nodes
+    int [] parent = new int [n+1];// as 1 base indexing
+    /* Initially we consider the nodes are parent of itself */
+    for(int i =1;i<=n;i++)parent[i]=i;
+    /*
+    1)Visualize first as all individual components
+    2)Now start joining the nodes
+    Here we are not given edge list
+     */
+    for(int i =0;i<n;i++){
+        /*
+        Represent the ith node and j represent the nodes that are connected to the ith node in this question
+        node is connected to itself so, we will ignore that as 1 based indexing so i+1 and j+1
+        */
+        for(int j =0;j<n;j++){
+            /* Edge is from (i+1 to j+1) as these are 0 based indexing
+            if(i==j) // nothing will happen in  union function so just skip it */
+            if(i!=j&&isConnected[i][j]==1)union(i+1,j+1,parent);
+        }
+    }
+   int count =0;
+    for(int i =1;i<=n;i++)if(parent[i]==i)count++;
+     return count ;
+}
+public void union(int a, int b, int []parent){
+    /*
+    Union : Connecting group leader of i+1 and j+1
+     Now we want to connect  a and b don't connect a and b connect a group
+     and b group means make b' group leader as parent of a's group leader
+     */
+    int leaderA = find(a,parent);// will find the group leader of a particular node
+    int leaderB = find(b,parent);
+    /* If both group leader same then we ignore it */
+    if(leaderA != leaderB) parent[leaderB]=leaderA;
+
+
+}
+public int find(int a,int[] parent){
+    /** We can do this iteratively */
+    if(parent[a]==a) return a;
+    else return find(parent[a],parent);
+}
     }
 
