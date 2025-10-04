@@ -115,5 +115,58 @@ By removing front we are accessing its element that are connected to it and givi
         }
 
     }
+/** ============================ Solve Using DSU(Disjoint Set Union ) =================================================================*/
+class Solution {
+    public boolean isBipartite(int[][] graph) {
+        int n = graph.length;
+        int [] parent = new int [n];
+        int [] size = new int [n];
+        boolean [] parity = new boolean[n];
+        for(int i =0;i<n;i++){
+            parent[i]=i;
+            size[i]=1;
+            parity[i] = false;
+        }
+        for(int i =0;i<graph.length;i++){
+            for(int j =0;j<graph[i].length;j++){
+                int u =i,v = graph[i][j];
+                if(v>u){// graph[i][j] represent   { e :h, i, j }
+                    // i is e and graph[i][j] is h,i,j
+                    if(leader_1(u,parent)==leader_1(v,parent)){
+                        if(parity[u]==parity[v])return false;
+                    }
+
+                    else union_1(u,v,size,parent,parity);
+                    /** The big if ends here  */
+                }
+            }
+        }
+        return true;
     }
+    void union_1(int u, int v,int[] size,int [] parent,boolean [] parity ){
+        int a = leader_1(u,parent);
+        int b = leader_1(v,parent);
+        if(a!=b){
+            if(size[a]>size[b]){
+                parent[b]=a;
+                size[a]+=size[b];
+                parity[v]=!parity[u];// we have to give opposite color of each other
+            }
+            else{
+                parent[a] = b;
+                size[b]+=size[a];
+                parity[u] =!parity[v];
+            }
+        }
+    }
+    int leader_1(int u, int [] parent){
+        if(parent[u]==u) return u;
+        else return parent[u] = leader_1(parent[u],parent);
+        /* we will also make the leader as parent on backtracking we call it path compression */
+    }
+    }
+}
+/** We can make the DSU  as Data Structure we can make class of it and make function leader() and union () as its function and members like
+ * parent,size and parity as there members
+ * left : Graph ended strongly connected component kosa raju algo but, it is not that important  */
 
