@@ -92,4 +92,76 @@ public class MinCostToConnectAllPoints {
         }
 
     }
+/**===================================  Let's do it by Kruskal Algorithm  ===========================================================*/
+class TRIPLET implements Comparable<TRIPLET>{
+    int U;// node means node index
+    int V;
+    int md;
+    TRIPLET(int U,int V, int md ){
+        this.U =U;
+        this.V =V;
+        this.md = md;
+    }
+    public int compareTo(TRIPLET t){
+        if(this.md==t.md) return this.U-U;
+        return this.md - t.md;
+    }
+
 }
+public int minCostConnectPoints_1(int[][] points) {
+    int n = points.length;// we have n points and it is 0 based indexing from 0 to n-1
+    int [] parent = new int[n];
+    int [] size = new int [n];
+    for(int i =0;i<n;i++){
+        parent[i] = i;
+        size[i] = 1;
+    }
+    PriorityQueue<TRIPLET> pq = new PriorityQueue<>();// first we have to sort the edge list for kruskal algorithm
+    // Now put the points in the Min Heap
+    for(int u =0;u<n;u++){
+        for(int v = u+1;v<n;v++){
+            // as [1,1,wt] represent a point and edge is []---[] so we had done this
+            int x1 = points[u][0];
+            int y1 = points[u][1];
+            int x2 = points[v][0];
+            int y2 = points[v][1];
+            int md = Math.abs(x2-x1)+Math.abs(y2-y1);
+            pq.add(new TRIPLET(u,v,md));// Here u and v are not parent they represent edge okay
+        }
+    }// Instead of min heap we can use ArrayList or Array
+    int cost =0;
+    while(!pq.isEmpty()){
+        TRIPLET top = pq.remove();
+        int u = top.U;
+        int v = top.V;
+        int md = top.md;
+        if(leader(u,parent)!=leader(v,parent)){
+            // then only we take the edge in the mst
+            cost+=md;
+            union(u,v,parent,size);
+        }
+
+    }
+    return cost;
+}
+    int leader(int u, int [] parent){
+        if(parent[u]==u) return u;
+        else return parent[u] = leader(parent[u],parent);
+        /* we will also make the leader as parent on backtracking we call it path compression */
+    }
+    void union(int u, int v,int [] parent,int [] size){
+        u = leader(u,parent);
+        v = leader(v,parent);
+        if(u!=v){
+            /* We only do union when leader are different and ,also we do union on the basis of size */
+            if(size[u]>size[v]){
+                parent[v]= u;
+                size[u]+=size[v];
+            }else{
+                parent[u]=v;
+                size[v]+=size[u];
+            }
+        }
+    }
+}
+
