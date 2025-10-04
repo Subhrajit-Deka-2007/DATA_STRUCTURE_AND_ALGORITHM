@@ -285,7 +285,7 @@ public int findCircleNum_4(int[][] isConnected) {
  *
  *  DSU TIME COMPLEXITY : T.C DEPEND ON WHAT WE ARE GIVEN (ADJ MATRIX, ADJ LIST, EDGE LIST) WE CONSIDER WE ARE GIVEN
  *  ADJ LIST AND WE HAVE E EDGES GIVEN
- *  T.C =O(E*union())=> union() => find() => which is reduced to o(alpha(n))~o(4)
+ *  T.C =O(E*union())=> union() => find() => which is reduce to
  *  every given edge get union for one time so t.c = e*union()
   */
         }
