@@ -141,6 +141,39 @@ public class MaxSumOfArrayAfterKNegations {
             for (int ele : nums) maxsum += ele;
             return maxsum;
         }
+/** TEACHERS APPROACH
+ *  public static int largestSumAfterKNegations(int[] nums, int k) {
+ *         // Step 1: Sort the array to handle the most negative numbers first.
+ *         Arrays.sort(nums);
+ *
+ *         int i = 0;
+ *         // Step 2: Greedily flip all negative numbers to positive as long as we have k > 0.
+ *         while (i < nums.length && nums[i] < 0 && k > 0) {
+ *             nums[i] *= -1; // Flip the number.
+ *             i++;           // Move to the next element.
+ *             k--;           // Decrement the count of remaining flips.
+ *         }
+ *
+ *         // Step 3: If k is still positive and odd, we must perform one last flip.
+ *         // To minimize the reduction in sum, we flip the smallest number in the array.
+ *         if (k % 2 == 1) {
+ *             // Re-sort the array because the original negative numbers,
+ *             // now positive, might not be the smallest overall.
+ *             Arrays.sort(nums);
+ *             // Flip the smallest element (which is at index 0 after sorting).
+ *             nums[0] *= -1;
+ *         }
+ *
+ *         // Step 4: Calculate the sum of all elements in the modified array.
+ *         int sum = 0;
+ *         for (int s : nums) {
+ *             sum += s;
+ *         }
+ *
+ *         // Step 5: Return the final calculated sum.
+ *         return sum;
+ *     }
+  */
     }
 
 
