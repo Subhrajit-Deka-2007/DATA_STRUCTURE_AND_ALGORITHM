@@ -1,5 +1,9 @@
 package Greedy;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 /**
  *
 
@@ -41,4 +45,23 @@ package Greedy;
  -231 <= xstart < xend <= 231 - 1
  */
 public class MinArrowsToBrustBalloons {
+    public static void main(String[] args) {
+
+    }
+    /* Google , FaceBook, GoldMan Sachs */
+    public int findMinArrowShots(int[][] points) {
+        List<int[]> ans = new ArrayList<>();
+        Arrays.sort(points,(a, b)->Integer.compare(a[0],b[0]));
+        // sort on the basis of starting point in anscending order
+        for(int [] point :points){
+            if(ans.size()==0||ans.get(ans.size()-1)[1]<point[0])ans.add(point);
+            else{
+                int start = Math.max(ans.get(ans.size()-1)[0],point[0]);
+                int end = Math.min(ans.get(ans.size()-1)[1],point[1]);
+                int [] intervals ={start,end};
+                ans.set(ans.size()-1,intervals);
+            }
+        }
+        return ans.size();
+    }
 }
